@@ -6,15 +6,15 @@ import { Icon } from "astro-icon/components";
 import Hobbies from "../portfolio/Hobbies.astro";
 
 const  {
-  profileImage = "/images/efeeleprofile.webp",
-  profileAlt = "Photo of Fernando Aldair López Ponce (EFEELE) for the blog",
+  profileImage = "/images/ado.webp",
+  profileAlt = "Photo of Adrian Reategui (reatva) for the blog",
   profileLink = "/about-me",
-  profileTitle = "FrontEnd Developer",
-  profileName = "Fernando López",
-  githubLink = "https://github.com/EFEELE/NeonMint",
-  githubText = "Do you like this blog's design?",
-  portfolioImage = "/images/portfolio.webp",
-  email = "hello@efeele.dev",
+  profileTitle = "Aspiring Cybersecurity Penetration Tester",
+  profileName = "Adrian Reategui",
+  // githubLink = "https://github.com/EFEELE/NeonMint",
+  // githubText = "Do you like this blog's design?",
+  // portfolioImage = "/images/portfolio.webp",
+  email = "adrian.reatva@gmail.com",
 } = Astro.props;;
 ---
 
@@ -41,7 +41,7 @@ const  {
             <div
               class="w-full aspect-square rounded-full bg-center bg-cover"
               style={`background-image: url(${profileImage})`}
-              aria-label="Photo of Fernando Aldair López Ponce (EFEELE) for the blog"
+              aria-label="Photo of Adrian Reategui (reatva) for the blog"
             >
               <a
                 href={profileLink}
@@ -67,7 +67,7 @@ const  {
         <h1
           class="text-4xl font-black leading-none text-blacktext  dark:text-white max-xl:text-3xl max-lg:text-2xl  max-sm:text-center"
         >
-          {profileName} 👋
+          {profileName} <!--👋-->
         </h1>
         <p
           class="mb-0 text-lg font-semibold leading-8 text-blacktext dark:text-gray-200 max-xl:text-base"
@@ -77,8 +77,8 @@ const  {
             >{profileTitle}</span
           > with <span
             class="bg-gradient-to-r from-riptide-500 to-mint-500 bg-clip-text font-black text-transparent  dark:from-riptide-300 dark:to-mint-200"
-            >8 years of experience</span
-          >, passionate about development, technology, and coffee that sparks ideas. I love bringing digital projects to life. 🚀☕
+            >2 years hands on experience</span
+          >, with passion and solid foundations in offensive security and penetration testing. Looking to apply technical skills in a junior penetration tester or SOC analyst role.
         </p>
 
         <div class="flex gap-4 max-sm:flex-col max-sm:items-center">
@@ -97,7 +97,7 @@ const  {
       </div>
     </div>
   </div>
-  <div
+  <!-- <div
     class="mx-auto grid max-w-7xl grid-cols-2 grid-rows-4 max-sm:gap-3 gap-4 max-md:h-[80vh] max-sm:h-[900px] max-xl:h-[550px] xl:h-[700px] md:grid-cols-4 md:grid-rows-2"
   >
     <div
@@ -160,9 +160,9 @@ const  {
           <Tools />
         </div>
       </article>
-    </div>
+    </div> -->
 
-    <div
+    <!-- <div
       class="col-span-2 row-span-2 rounded-2xl bg-gradient-to-r from-mint-300 dark:from-mint-600 to-mint-50 dark:to-mint-200/5 p-[.2rem] hover:to-mint-300/30 dark:hover:to-mint-600/30 md:col-start-1 md:row-start-1"
     >
       <article
@@ -205,6 +205,6 @@ const  {
           height="320"
         />
       </article>
-    </div>
+    </div> -->
   </div>
 </section>

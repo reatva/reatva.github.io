@@ -5,6 +5,8 @@ import preact from "@astrojs/preact";
 import sitemap from "@astrojs/sitemap"
 import icon from "astro-icon";
 
+// import react from "@astrojs/react";
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://neonmint.efeele.dev",
@@ -12,7 +14,7 @@ export default defineConfig({
     filter: (page) =>
       !page.includes("/blog/tags") &&
       !page.includes("/blog/techs"),
-  }),],
+  }), ],
 
   vite: {
     plugins: [tailwindcss()],

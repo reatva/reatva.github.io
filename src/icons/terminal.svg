@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" id="Terminal--Streamline-Material-Pro">
+  <desc>
+    Terminal Streamline Icon: https://streamlinehq.com
+  </desc>
+  <g id="terminal">
+    <path id="terminal_2" fill="currentColor" d="M4 20c-0.55 0 -1.02083 -0.1958 -1.4125 -0.5875C2.19583 19.0208 2 18.55 2 18V6c0 -0.55 0.19583 -1.02083 0.5875 -1.4125C2.97917 4.19583 3.45 4 4 4h16c0.55 0 1.0208 0.19583 1.4125 0.5875C21.8042 4.97917 22 5.45 22 6v12c0 0.55 -0.1958 1.0208 -0.5875 1.4125C21.0208 19.8042 20.55 20 20 20H4Zm0 -2h16V8H4v10Zm3.5 -1 -1.4 -1.4L8.675 13l-2.6 -2.6L7.5 9l4 4 -4 4Zm4.5 0v-2h6v2h-6Z" stroke-width="1"></path>
+  </g>
+</svg>
