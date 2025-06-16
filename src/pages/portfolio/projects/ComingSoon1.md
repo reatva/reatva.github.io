@@ -1,9 +1,9 @@
 ---
 layout:  /src/layouts/MarkdownPostLayout.astro
-title: 'Basic Active Directory Lab'
+title: "Vulnerability Management with Tenable"
 author: Adrian Reategui
 pubDate: 2025-06-11
-description: 'User friendly Activde Directory set up to add to your resume projects.'
+description: "Cloud based lab where we use Tenable Scan Engine hosted in Microsoft Azure virtual machine, to understand and use Vulnerability Management effectively'
 languages: []
 image:
   url: "/images/projects/ComingSoon.webp"
