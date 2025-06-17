@@ -141,3 +141,8 @@ import Heading from "../components/ui/Heading.astro";
     </div>
   </div>
 </Layout>
+<script type="module">
+  import mediumZoom from 'https://cdn.skypack.dev/medium-zoom';
+  // mediumZoom('.markdown img');
+  mediumZoom('.markdown img', {background: 'rgba(0, 0, 0, 0.8)'});
+</script>
