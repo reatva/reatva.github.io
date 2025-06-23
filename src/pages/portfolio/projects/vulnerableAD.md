@@ -166,7 +166,7 @@ powershell -ep bypass
   Forge Golden Ticket for persistence
 
 ## Mitre ATT&CK Coverage
-![Alt](/public/images/posts/attackmitre.png)
+![alt](/images/posts/attackmitre.png)
 
 ## License
 This project is licensed under the MIT License - see the LICENSE file for details.
