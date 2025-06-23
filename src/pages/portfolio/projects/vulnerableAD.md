@@ -14,139 +14,165 @@ tags:
   ]
 --- 
 
-**Custom-built vulnerable Active Directory** environment designed to simulate a full attack chain. The lab includes intensional misconfigurations such as an exposed SMB share with users files, users accounts that are AS-REP roastable and Kerberoastable, and privilege escalation paths that allow password changes for a privilege user. Exploiting these weaknesses step-by-step leads to a successful DCSync attack and full domain compromise.
+## Vulnerable Active Directory Lab OSCP Style
+Automated custom-built vulnerable Active Directory environment designed to simulate a full attack chain OSCP Style. This lab **automates the vulnerabilities in CLIENTS machines and DC**, in order for the scripts to work, the **Domain Controller has to be already created and the CLIENTS machines already joined to it**. This lab assumes a **breach scenario** as is common in real-world penetration testings. It also includes intensional misconfigurations such as an exposed SMB share with users files, users accounts that are AS-REP roastable and Kerberoastable, and privilege escalation paths that allow password changes for a privilege user. Exploiting these weaknesses step-by-step leads to a successful DCSync attack and full domain compromise. 
+[SEE FULL PROJECT HERE](https://github.com/reatva/Vulnerable-Active-Directory-Lab)
 
-## DC Settings
-### Disabling Windows Defender and Windows Updates
-- We created a custom GPO to disable Windows Updates and Windows Defender, making the environment easier to exploit.
-![alt](/images/projects/adlab1.png)
+```diff
+- CLIENT1 CREDENTIALS
+Username: adrian
+Password: Not4@ver3ge!
+```
 
-![alt](/images/projects/adlab2.png)
-### Disabling Firewall
-- We need our attacks to work so we are going to disable Windows Defender Firewall with Advanced Security
-![alt](/images/projects/adlab5.png)
-### AS-REP roastable user
-- We created a user called *"Lucy"* and we made her AS-REP roastable by checking on *"Do not requiere Kerberos preauthentication"*.
-![alt](/images/projects/adlab3.png)
-### Creating user Nicol
-- We created user **Nicol**, we are gonna use this user and give her SMB read permissions of a *Backups* folder we are going to create later. 
-![alt](/images/projects/adlab15.png)
-### Restricting LDAP queries for Nicol
-- We don't want our user Nicol to list information from the Domain Controler using tools like *"rpcclient"* or *"ldapsearch"*. To do that we need to create a **New Security Group** from **Active Directory Users and Computers** and add Nicol.
-```
-  "Active Directory Users and Computer" > New > Group > LDAP_Deny_Group > Add > Nicol
-```
-![alt](/images/projects/adlab33.png)
-![alt](/images/projects/adlab36.png)
-- After that we are going to create a new **Group Policy Object (GPO)** 
-```
-  "Group Policy Management" > "Group Policy Objects" > New > Name: "Deny LDAP Access"
-```
-![alt](/images/projects/adlab32.png)
-- We're gonna configure the new GPO to **Deny** access to lsass.exe LDAP functions.
-```
-  Right click on the GPO > Edit
-  "Computer Configuration Policies" > "Windows Settings" > "Security Settings" > "Local Policies" > "User Rights Assignment"
-```
-![alt](/images/projects/adlab37.png)
-- Here we are going to check **"Access this computer from the network"** and add the LDAP_Deny_Group we created earlier.
-![alt](/images/projects/adlab38.png)
+>This lab **automates the vulnerabilities in CLIENTS machines and DC**, in order for the scripts to work, the **Domain Controller has to be already created and the CLIENTS machines already joined to it**
 
-- As the final step we are going to link the GPO to Domain Controllers OU, we need to go to Group Policy and locate Domain controllers and follow the steps describe below. After that we have restricted the access to Nicol to query Domain information using *rpcclient* or *ldapsearch*.
-```
-  "Group Policy Management" > "Domain Controllers OU" > right click > "Link an existing GPO" 
-```  
-![alt](/images/projects/adlab40.png)
-- We check that everything has worked from our Kali machine.
-![alt](/images/projects/adlab41.png)
-### Kerberoastable user svc_iis
-- Another user was created, in this case *svc_iis* which we are going to set it up and make him a Kerberoastable account using Powershell cmd.
-```powershell
-  Set-ADUser -Identity svc_iis -ServicePrincipalNames @{Add="HTTP/webserver.mydomain.com"}
-  setspn -l svc_iis
-```
-![alt](/images/projects/adlab4.png)
-### Reset Password permission for svc_iis
-- Once our user has been created we are going to give him the *Reset Password* permission over user *emmet*
-```powershell
-  dsacls "CN=emmet,CN=Users,DC=mydomain,DC=com" /G "mydomain.com\svc_iis:CA;Reset Password"
-```  
-![alt](/images/projects/adlab43.png)
-- By uploading the data obtained from the DC to *Bloodhound* we can see how our privilege has been applied properly.
-![alt](/images/projects/adlabw15.png)
-### Assigning DCSync permissions to emmet
-- Since our user emmet is a normal user we are going to give him permissions to do a DCSync. To do that we need to add the *Replicating Directory Changes* and *Replicating Directory Changes All* to emmet.
-```
-  $DomainDN = (Get-ADDomain).DistinguishedName
-  dsacls $Domain /G "mudomain.com\emmet:CA;Replicating Directory Changes"
-  dsacls $Domain /G "mudomain.com\emmet:CA;Replicating Directory Changes All"
-```
-![alt](/images/projects/adlab44.png)
-![alt](/images/projects/adlab46.png)
-![alt](/images/projects/adlab45.png)
-![alt](/images/projects/adlab46.png)
-- If we see the changes we have made in *Bloodhound* we can see how *emmet* is now capable of do a *DCSync* on the Domain Controller. This permission allows the user to dump hashes of the Domain including the Administrator.
-![alt](/images/projects/adlabw16.png)
+## Diagram
+![diagrama](https://github.com/user-attachments/assets/8178b195-70bc-48bf-98a0-4e162078a346)
 
-## CLIENT 1
-### Disabling Defender
-- We have to keep in mind that this machine needs to have the Windows Defender disable.
-```powershell
-   Set-MpPreference -DisableRealTimeMonitoring $true
-   New-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Defender" -Name DisableAntiSpyware -Value 1 -PropertyType DWORD -Force
-```
-![alt](/images/projects/adlab10.png)
-### Adding user to RDP
-- Adding Domain user Adrian to *"RDP group"* on CLIENT1, when executing the command for the second time it gives us an error meaning that the user is already in the group.
-```powershell
-  Add-LocalGroupMember -Group "Remote DEsktop USers" -Member "mydomain.com\adrian"
-```
-![alt](/images/projects/adlab47.png)
-### Setting SeImpersonatePrivilege
-- We're gonna add the **SeImpersonatePrivilege** to Adrian from the Local Security, this privilege will allow the user to impersonate an Administrator user.
-```
-  "Windows Administrative Tools" > "Local Security Poliy" > "Local Policies" "USer Rights Assignment" > "Impersonate client after authentication"
-```
-![alt](/images/projects/adlab48.png)
-### Enabling RDP
-- Since our user is part of the **"Remote Desktop Users"** we are going to enable port 3389 from windows registry.
-```
-  Registry > HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server
-  Set fDenyTSConnections 0
-```
-![alt](/images/projects/adlab7.png)
-### Modifying Administrator's powershell history
-- We are going to modify the Administrator's Powershell history adding Nicol's password in plain text to let us jump to CLIENT2
-![alt](/images/projects/adlab49.png)
-
-## CLIENT 2
-### Sharing SMB Folder
-- As we mentioned earlier, we are going to create a **Backups** share folder and assign reading permissions to Nicol. We are going to delete Everyone as we only want Nicol to be able to see the contents of this share.
-```
-  C:\ > mkdir "Backups"
-```
-![alt](/images/projects/adlab17.png)
-### Enabling local shares to Domain Users
-- After setting up the share folder, we are going to modify the registry to enable local shares to be accesible by users from the Domain, we will have to create a new DWORD registry in the following path.
-```
-  Registry > HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\service\LanmanWorksatation\Parameters
-  Right Click > New > DWORD Value(32-bit) > AllowInsecureGuestAuth
-```
-![alt](/images/projects/adlab18.png)
-
-> Some steps like Creating a Domain Controller and joining machines to it have been omited since there is a lab I created showing all the steps required.
-
-## Lab Features
-
-- Active Directory Domain: Joined machines
-- Vulnerable User Accounts: Kerberoasting, AS-REProastable
-- Privilege Escalation Paths: Reset Password, DCSync
-- Hardening Bypass on CLIENT1: RDP Access, SeImpersonatePrivilege
-- Exploitable SMB share on CLIENT2: SMB share
+## Lab Key Features
+- **Active Directory Automated Domain setup:** Weak passwords, delegated permissions, GPO disables Defender, Firewall, Updates
+- **Vulnerable User Accounts:** Kerberoasting, AS-REProastable
+- **Privilege Escalation Paths:** Reset Password, DCSync
+- **Hardening Bypass on CLIENT1:** RDP Access, SeImpersonatePrivilege
+- **Exploitable SMB share on CLIENT2:** SMB folder with zip file
+- Walktrough OSCP Style + Template using [Sysreptor](https://github.com/Syslifters/sysreptor)  
 
 ## Lab Objective
+The goal of this lab is to simulate a realistic attack chain in an Active Directory environment. It shows how common misconfigurations and overlooked settings can be combined to compromise an entire domain. It can be used as reference for pentesters portfolio.
 
-The goal of this lab is to simulate a realistic attack chain in an Active Directory environment. It shows how common misconfigurations and overlooked settings can be combined to compromise an entire domain.
+## To Download:
+[Windows 10 ISO](https://www.microsoft.com/en-au/software-download/windows10)
+
+[Windows Server 2016 ISO](https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2016)
+
+## Environment Setup & Configuration
+
+1. Import VMs in VirtualBox/VMware.
+
+2. Assign Internal Network interfaces to VMs
+
+3. Install Windows Server and Client ISO 
+
+4. Create a new Forest on Windows Server
+- Join CLIENTS to DC, all of them have to be in the same Internal network/share the same IP range
+  ![lab39](https://github.com/user-attachments/assets/6a996f85-1fc5-482b-b40a-eb05093b6937)
+- Add a second Internal Network adapter to kali and Client1 for communication from VM Manager
+  ![lab42](https://github.com/user-attachments/assets/c38c8cc0-8ce2-4bad-9b21-79cfe1d06749)
+
+- Set IP in CLIENT1 : 192.168.10.101
+  ```
+  Network & Internet Settings > Ethernet > Properties > IPv4
+  IP: 192.168.10.101
+  Netmask: 255.255.255.0
+  ```
+- Set IP in Kali : 192.168.10.100
+  ```bash
+  sudo ip addr add 192.168.10.100/24 dev eth1
+  sudo ip link set eth1 up
+  ```
+
+> Take a snapshot of all 3 machines before running the scripts in order to be able to reset the changes.
+
+## Sharing scripts to internal clients (CLIENT2 and DC)
+   
+1. Download the scripts to your kali machine and share them with python to download them from CLIENT1
+  ```bash
+  python3 -m http.server80
+  ```
+2. In CLIENT1 download the files and put them in a SMB Folder so they will be accessible from any machine
+  ```powershell
+  mkdir C:\FILES
+  iwr -uri http://<IP>/DC_script.ps1 -Outfile DC_script.ps1 
+  iwr -uri http://<IP>/c1_script.ps1 -Outfile c1_script.ps1
+  iwr -uri http://<IP>/c2_script.ps1 -Outfile c2_script.ps1
+  iwr -uri http://<IP>/images.zip -Outfile images.zip
+  Share FILES directory
+  ```
+
+> You have to loggin in all machines as Domain Admin and run the scripts in a Powershell console as Administrator.
+
+## Domain and Clients configuration
+
+### DC
+1.  Access \\\\Client1\SHARE and download [DC_script.ps1](https://github.com/reatva/Vulnerable-Active-Directory-Lab/blob/main/DC_script.ps1), open a Powershell console as Administrator and run the script. It will create domain users, AS-RERProastble and Kerberoastable users, create a GPO to disable windows updates, firewall and defender, assign Reset Password and DCSync permissions.
+```powershell
+powershell -ep bypass
+.\DC_SCRIPT.PS1
+```
+  2. We restric LDAP queries for Nicol following the next steps. By restricting LDAP queries user Nicol won't be able to gather Domain info using tools as rpcclient or ldapsearch.
+  ```
+  Go to: Group Policy Management  
+  	Group Policy Objects > Deny LDAP Access > Edit 
+  		Computer Configuration > Policies > Windows Settings > Security Settings > Local Policies > User Rights Assignment
+  			Deny Access to this computer from the network > Add User or Group > LDAP_Deny_Group
+  ```
+  3. As the final step we link the GPO to the Domain Controllers ( The script already creates the Group and the GPO but manual step is necessary)
+  ```
+  Go to : Group Policy Management
+  	Domain Controllers > Right click > Link an existing GPO > Deny LDAP Access > OK
+  ```    
+
+### CLIENT 2
+1. Access \\\\Client1\Share and copy [images.zip](https://github.com/reatva/Vulnerable-Active-Directory-Lab/blob/main/images.zip) & [c2_script.ps1](https://github.com/reatva/Vulnerable-Active-Directory-Lab/blob/main/c2_script.ps1), after that we run c2_script.ps1.
+   ```powershell
+   powershell -ep bypass
+   .\c2_script.ps1
+   ```
+### CLIENT1
+1. Finally, run [c1_script.ps1](https://github.com/reatva/Vulnerable-Active-Directory-Lab/blob/main/c1_script.ps1), this will add user Adrian to Local RDP Group, enable RDP, and enable Administrator's account.
+   ```powershell
+   powershell -ep bypass
+   .\c2_script.ps1
+   ```
+2. To assign user adrian SeImpersonatePrivilege
+  ```
+  Go to:
+  "Windows Administrative Tools" > "Local Security Poliy" > "Local Policies" "USer Rights Assignment" > "Impersonate client after authentication" > add > Adrian
+  ```
+
+## Attack Flow
+[READ FULL WRITE-UP HERE](https://github.com/reatva/Vulnerable-Active-Directory-Lab/blob/main/Lab-Walktrough.pdf)
+
+- **Step 1: Initial Access**
+  Weak domain creds used to RDP to Client1
+
+- **Step 2: Privilege Escalation**
+  Potato exploit (SeImpersonatePrivilege) used to get SYSTEM shell
+
+
+- **Step 3: Credential Discovery**
+  Found cleartext creds in Administrator’s PowerShell history
+
+
+- **Step 4: Lateral Movement**
+  Access SMB share on Client2 using creds
+
+- **Step 5: Data Collection & Credential Cracking**
+  Download and crack ZIP file hash, extract usernames from images
+
+- **Step 6: AS-REP Roasting**
+  Identify and crack ASREPRoastable user hash
+
+- **Step 7: Kerberoasting**
+  Extract and crack SPN ticket hash
+
+- **Step 8: Privilege Escalation via BloodHound**
+  Discover resetpassword chain and DCSync privileges
+
+- **Step 9: Credential Dumping (DCSync)**
+  Dump NTDS hashes
+
+- **Step 10: Persistence**
+  Forge Golden Ticket for persistence
+
+## Mitre ATT&CK Coverage
+![Alt](/public/images/posts/attackmitre.png)
+
+## License
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+
+
 
 
 
