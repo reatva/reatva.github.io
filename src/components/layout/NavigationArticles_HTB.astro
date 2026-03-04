@@ -1,5 +1,5 @@
 ---
-const allPosts = await Astro.glob("../../pages/blog/posts/hackthebox/Machines/*.md");
+const allPosts = Object.values(import.meta.glob("../../pages/blog/posts/hackthebox/Machines/*.md", { eager: true }));
 const sortedPosts = allPosts
   .filter(post => post.frontmatter.pubDate)
   .sort((a, b) => new Date(b.frontmatter.pubDate).getTime() - new Date(a.frontmatter.pubDate).getTime());

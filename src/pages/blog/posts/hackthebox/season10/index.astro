@@ -3,7 +3,7 @@ import Layout from "../../../../../layouts/Layout.astro";
 import BlogPost from "../../../../../components/blog/BlogPost_S10.astro";
 import Heading from "../../../../../components/ui/Heading.astro";
 
-const allPosts = await Astro.glob("./*.md");
+const allPosts = Object.values(import.meta.glob("./*.md", { eager: true }));
 
 const postsToShow = allPosts.sort((a, b) =>
   new Date(b.frontmatter.pubDate).getTime() - new Date(a.frontmatter.pubDate).getTime()

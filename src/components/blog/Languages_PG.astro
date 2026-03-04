@@ -1,5 +1,5 @@
 ---
-const allPosts = await Astro.glob("../../pages/blog/posts/provinggrounds/*.md");
+const allPosts = Object.values(import.meta.glob("../../pages/blog/posts/provinggrounds/*.md", { eager: true }));
 const languages = [
     ...new Set(allPosts.map((post) => post.frontmatter.languages).flat()),
 ];

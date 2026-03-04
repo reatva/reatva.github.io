@@ -4,7 +4,7 @@ import BlogPost from '../../../../../components/blog/BlogPost_HTB.astro';
 import Heading from '../../../../../components/ui/Heading.astro';
 
 export async function getStaticPaths() {
-    const allPosts: any[] = await Astro.glob("../../hackthebox/Machines/*.md");
+    const allPosts: any[] = Object.values(import.meta.glob("../../hackthebox/Machines/*.md", { eager: true }));
 
     const uniqueTags: string[] = [
         ...new Set(allPosts.map((post: any) => post.frontmatter.tags).flat()),
