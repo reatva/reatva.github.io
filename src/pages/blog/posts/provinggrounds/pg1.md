@@ -4,7 +4,7 @@ title: SpiderSociety Proving Grounds Write-Up
 author: Adrian Reategui
 description: "SpideSociety ProvingGrounds practice Write-Up"
 image: 
-  url: "/images/posts/spidersocietybg.webp"
+  url: "/images/posts/Provinggrounds/Spidersociety/spidersocietybg.webp"
   alt: "SpideSociety ProvingGrounds practice Write-Up"
 pubDate: 2025-04-04
 tags:
@@ -76,11 +76,11 @@ libspider               [Status: 301, Size: 322, Words: 20, Lines: 10, Duration:
 :: Progress: [220546/220546] :: Job [1/1] :: 245 req/sec :: Duration: [0:03:06] :: Errors: 167 ::
 ```
 - When accessing the directory, we found an administration panel.
-![alt](/images/posts/spidersociety5.webp)
+![alt](/images/posts/Provinggrounds/Spidersociety/spidersociety5.webp)
 - We used default credentials and managed to access as administrators (admin:admin).
-![alt](/images/posts/spidersociety6.webp)
+![alt](/images/posts/Provinggrounds/Spidersociety/spidersociety6.webp)
 - When clicking on communication, a window appears showing us credentials for accessing the FTP server.
-![alt](/images/posts/spidersociety.webp)
+![alt](/images/posts/Provinggrounds/Spidersociety/spidersociety.webp)
 - We successfully accessed the FTP server and, while enumerating inside the libspider folder, we found a hidden directory.
  ```bash
 > ftp 192.168.107.214 -P 2121
@@ -123,9 +123,9 @@ drwxr-xr-x    4 1002     1002         4096 Jun 02 07:53 ..
 ```bash
 > curl -s -X GET "http://192.168.107.214/libspider/.fuhfjkzbdsfuybefzmdbbzdcbhjzdbcukbdvbsdvuibdvnbdvenv"
 ```
-![alt](/images/posts/spidersociety8.webp)
+![alt](/images/posts/Provinggrounds/Spidersociety/spidersociety8.webp)
 - Con las credenciales obtenidas nos intentamos conectar por SSH y accedemos a la maquina vicitma exitosamente
-![alt](/images/posts/spidersociety9.webp)
+![alt](/images/posts/Provinggrounds/Spidersociety/spidersociety9.webp)
 ## USER FLAG
 - We read the first flag
 ```bash

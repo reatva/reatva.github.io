@@ -6,7 +6,7 @@ pubDate: 2025-07-06
 description: "Simulates realistic payload delivery using Sliver C2, shellcode encryption, and a trojanized installer."
 languages: []
 image:
-  url: "/images/posts/weaponized_bg.webp"
+  url: "/images/projects/Weaponized/weaponized_bg.webp"
   alt: "Offensive security simulation project designed to replicate real-world payload delivery techniques."
 tags: 
   [
@@ -17,7 +17,7 @@ tags:
 **Weaponized Installer Lab** is an offensive security simulation project designed to replicate real-world payload delivery techniques. This labs walks through building a trojanized installer that delivers encrypted Sliver shellcode, simulating a user falling victim to a social engineering attack.
 The project aims to highlight practical adversary workflows from command and control (C2) setup to payload encryption, obfuscation, and final execution on a target machine.
 
-![Alt text](/images/posts/attack-flow.webp)
+![Alt text](/images/projects/Weaponized/attack-flow.webp)
 
 ## 🔗 Github Repository
 [View the full project on Github](https://github.com/reatva/Weaponized-Installer-Lab)
@@ -35,7 +35,7 @@ The project aims to highlight practical adversary workflows from command and con
 - **Reverse shell** established post-installation
 
 ## 🧰 Tools & Technologies
-![Alt text](/images/posts/Tools.png)
+![Alt text](/images/projects/Weaponized/Tools.png)
 
 ## 🔄 Workflow Summary
 1. **Generate Sliver shellcode** ('.bin)

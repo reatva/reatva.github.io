@@ -3,6 +3,7 @@ import Navigation from "./Navigation.astro";
 import ThemeIcon from "../ui/ThemeIcon.astro";
 import Social from "../ui/Social.astro";
 import { Icon } from "astro-icon/components";
+import Search from "../ui/Search.astro";
 
 const currentPath = Astro.url.pathname;
 const routes = ["/", "/portfolio", "/about-me", ]; 
@@ -35,9 +36,10 @@ const navItems = isActiveRoute
     </a>
 
     <Navigation items={navItems} />
-
+    
     <div class="flex items-center justify-between gap-5 text-xl">
       <div class="max-md:hidden flex items-center justify-center gap-5" role="list">
+        <Search />
         <Social link={github} iconName="github" />
         <Social
           link={linkedin}

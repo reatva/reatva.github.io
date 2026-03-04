@@ -1,0 +1,47 @@
+---
+import BlogPost from "./BlogPost_S10.astro";
+import Heading from "../ui/Heading.astro";
+
+export interface Props {
+  season: number;
+  currentPostUrl?: string;
+}
+
+const { season, currentPostUrl = "" } = Astro.props;
+
+const allPosts = await Astro.glob("../../pages/blog/posts/hackthebox/season10/*.md");
+
+const postsToShow = allPosts
+  .filter(post => {
+    if (!currentPostUrl) return true;
+    const normalizedPostUrl = post.url?.replace(/\/$/, "") ?? "";
+    const normalizedCurrentUrl = currentPostUrl.replace(/\/$/, "");
+    return normalizedPostUrl !== normalizedCurrentUrl;
+  })
+  .sort((a, b) =>
+    new Date(b.frontmatter.pubDate).getTime() - new Date(a.frontmatter.pubDate).getTime()
+  );
+---
+
+<section class="py-8 max-lg:px-4 max-md:px-8 max-sm:px-0 max-md:py-4 max-w-4xl mx-auto">
+  <div class="flex gap-4 pb-6 items-center text-center justify-center">
+    <Heading text="Hackthebox" textGradient={`Season ${season}`} level={2} />
+  </div>
+  <div class="flex flex-col gap-8 w-full mx-auto">
+    {postsToShow.length > 0 ? (
+      postsToShow.map((post) => (
+        <BlogPost
+          url={post.url}
+          title={post.frontmatter.title}
+          date={post.frontmatter.pubDate}
+          tags={post.frontmatter.tags}
+          languages={post.frontmatter.languages}
+          image={post.frontmatter.image}
+        />
+      ))
+    ) : (
+      <p class="text-center text-zinc-400">No posts yet for Season {season}.</p>
+    )}
+  </div>
+</section>
+

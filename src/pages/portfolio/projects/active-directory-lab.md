@@ -6,7 +6,7 @@ pubDate: 2025-06-13
 description: 'A professionally structured Active Directory (AD) lab environment designed for hands-on learning and security testing.'
 languages: []
 image:
-  url: "/images/projects/adlab51.jpg"
+  url: "/images/projects/AD/Diagram.jpg"
   alt: "A professionally structured Active Directory (AD) lab environment designed for hands-on learning and security testing."
 tags: 
   [
@@ -17,7 +17,7 @@ tags:
 ## 🛠️ Overview
 This lab is a practical, enterprise-grade simulation of a misconfigured Windows domain environment. The lab is designed to mirror real-world Active Directory environments commonly found in corporate networks, complete with intentional misconfigurations that enable initial access, privilege escalation, lateral movement, and full domain compromise.
 
-![Alt text](/images/posts/diagram.jpg)
+![Alt text](/images/projects/AD/diagram.jpg)
 
 ## 🔗 Github Repository
 [View the full project on Github](https://github.com/reatva/Vulnerable-Active-Directory-Lab)

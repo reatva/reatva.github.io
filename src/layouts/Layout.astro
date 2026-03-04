@@ -94,3 +94,32 @@ const twitterimage = `${siteUrl}${ogimage.url}`;
     </script>
   </body>
 </html>
+
+<button
+  id="scrollTop"
+  aria-label="Scroll to top"
+  class="fixed bottom-6 right-6 z-50 p-3 max-sm:p-4 rounded-full bg-mint-400 dark:bg-mint-600 text-white shadow-lg opacity-0 pointer-events-none transition-all duration-300 hover:scale-110 hover:bg-mint-500"
+>
+  <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M7.5 2L13.5 8H9.5V13H5.5V8H1.5L7.5 2Z" fill="currentColor"/>
+  </svg>
+</button>
+
+<script>
+  const btn = document.getElementById('scrollTop');
+  
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+      btn?.classList.remove('opacity-0', 'pointer-events-none');
+      btn?.classList.add('opacity-100');
+    } else {
+      btn?.classList.add('opacity-0', 'pointer-events-none');
+      btn?.classList.remove('opacity-100');
+    }
+  });
+
+  btn?.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>
+

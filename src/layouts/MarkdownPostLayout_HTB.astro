@@ -5,8 +5,7 @@ import DatePub from "../components/blog/DatePub.astro";
 import Tag from "../components/ui/Tag_HTB.astro";
 import Capsule from "../components/ui/Capsule_HTB.astro";
 import NavArticle from "../components/layout/NavArticle.astro";
-import ListPosts from "../components/blog/Hackthebox.astro";
-import NavigationArticles from "../components/layout/NavigationArticles.astro";
+import NavigationArticles from "../components/layout/NavigationArticles_HTB.astro";
 import Share from "../components/ui/Share.astro";
 const { frontmatter } = Astro.props;
 const currentUrl = `${Astro.site}${Astro.url.pathname}`;
@@ -136,9 +135,7 @@ import Heading from "../components/ui/Heading.astro";
       <NavigationArticles />
       <hr class="text-mint-300/50" />
     </div>
-    <div class="px-8 max-sm:px-4">
-      <ListPosts currentPostUrl={Astro.url.pathname} />
-    </div>
+
   </div>
 </Layout>
 <script type="module">

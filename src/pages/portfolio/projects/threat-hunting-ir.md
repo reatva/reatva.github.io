@@ -6,7 +6,7 @@ pubDate: 2025-06-13
 description: 'Threat Hunting & Incident Response Lab is a hands-on project designed to simulate realistic detection, investigation, and response workflows using Microsoft Sentinel and Defender for Endpoint.'
 languages: []
 image:
-  url: "/images/projects/threathunting.jpeg"
+  url: "/images/projects/ThreatHunting/threathunting.jpeg"
   alt: "Threat Hunting & Incident Response Lab is a hands-on project designed to simulate realistic detection, investigation, and response workflows using Microsoft Sentinel and Defender for Endpoint."
 tags: 
   [
