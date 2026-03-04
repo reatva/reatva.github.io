@@ -125,22 +125,34 @@ const baseClasses = {
           >
             {item.name}
           </a>
-          <div class={baseClasses.dropdownMenu}>
+          <button class="mobile-toggle md:hidden px-2 py-2 text-current" aria-label="Toggle menu">
+            <svg width="12" height="12" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 5L7.5 10L12 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </button>
+          <div class={baseClasses.dropdownMenu} data-dropdown>
             {item.dropdown.map((dropdownItem: DropdownItem) => {
               if (dropdownItem.subDropdown) {
                 return (
-                  <div class="relative group/sub">
+                  <div class="relative group/sub" data-subdropdown-wrapper>
                     <a
                       href={dropdownItem.path}
                       class={`${baseClasses.dropdownItem} flex justify-between items-center gap-4`}
                       data-path={dropdownItem.path}
                     >
                       {dropdownItem.name}
-                      <svg width="10" height="10" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M6 11L10 7.5L6 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                      </svg>
+                      <span class="hidden md:inline">
+                        <svg width="10" height="10" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M6 11L10 7.5L6 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                      </span>
                     </a>
-                    <div class="absolute left-full top-0 hidden group-hover/sub:block bg-white dark:bg-zinc-800 shadow-lg rounded-md py-2 min-w-[160px] z-50">
+                    <button class="mobile-subtoggle md:hidden px-2 py-1 text-current absolute right-2 top-1" aria-label="Toggle submenu">
+                      <svg width="12" height="12" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 5L7.5 10L12 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>
+                    </button>
+                    <div class="absolute left-full top-0 hidden group-hover/sub:block bg-white dark:bg-zinc-800 shadow-lg rounded-md py-2 min-w-[160px] z-50" data-subdropdown>
                       {dropdownItem.subDropdown.map((sub: SubDropdownItem) => (
                         <a
                           href={sub.path}
@@ -181,10 +193,9 @@ const baseClasses = {
       </a>
     );
   })}
-  
+
   <div class={baseClasses.socialContainer} role="group" aria-label="Social Media Links">
     <Social link="https://www.google.com" iconName="github" />
     <Social link="https://www.linkedin.com/in/adrianreatva/" iconName="linkedin" />
   </div>
 </nav>
-

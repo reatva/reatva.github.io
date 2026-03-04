@@ -72,6 +72,38 @@ const twitterimage = `${siteUrl}${ogimage.url}`;
     <!-- Sitemap -->
     <link rel="sitemap" href="/sitemap-index.xml" />
     
+    <style>
+      @media (max-width: 767px) {
+        [data-dropdown],
+        [data-subdropdown] {
+          position: static !important;
+          box-shadow: none !important;
+          border-radius: 0 !important;
+          width: 100% !important;
+          min-width: unset !important;
+          left: unset !important;
+          top: unset !important;
+        }
+
+        [data-dropdown] {
+          border-left: 2px solid rgba(96, 250, 155, 0.4);
+          background: rgba(255,255,255,0.03) !important;
+          margin-top: 2px;
+        }
+
+        [data-subdropdown] {
+          border-left: 2px solid rgba(96, 250, 155, 0.2);
+          background: rgba(255,255,255,0.05) !important;
+          padding-left: 12px;
+          margin-top: 2px;
+        }
+
+        [data-subdropdown-wrapper] {
+          position: relative;
+        }
+      }
+    </style>
+
   </head>
   <body class="overflow-x-hidden">
     <!-- <SpeedInsights/>

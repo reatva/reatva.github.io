@@ -2,78 +2,49 @@
 const hamburgerBtn = document.querySelector('.hamburger');
 if (hamburgerBtn) {
   hamburgerBtn.addEventListener('click', () => {
-    const navLinks = document.querySelector('.nav-links');
-    const hamburger = document.querySelector('.hamburger');
-    navLinks.classList.toggle('expanded');
-    hamburger.classList.toggle('active');
+    document.querySelector('.nav-links').classList.toggle('expanded');
+    hamburgerBtn.classList.toggle('active');
   });
 }
 
 // Mobile dropdowns
-document.querySelectorAll('.nav-links .relative.group').forEach((dropdown) => {
-  const link = dropdown.querySelector('a');
-  const menu = dropdown.querySelector('.absolute');
+if (window.innerWidth < 768) {
+  document.querySelectorAll('.mobile-toggle').forEach((btn) => {
+    const dropdown = btn.nextElementSibling;
+    if (!dropdown) return;
 
-  if (link && menu) {
-    link.style.display = 'flex';
-    link.style.justifyContent = 'space-between';
-    link.style.alignItems = 'center';
-    link.style.width = '100%';
-
-    const toggleBtn = document.createElement('span');
-    toggleBtn.innerHTML = `<svg width="12" height="12" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 5L7.5 10L12 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`;
-    toggleBtn.className = 'ml-auto p-1 cursor-pointer';
-    link.appendChild(toggleBtn);
-
-    toggleBtn.addEventListener('click', (e) => {
-      const isMobile = window.innerWidth < 768;
-      if (isMobile) {
-        e.preventDefault();
-        e.stopPropagation();
-        menu.classList.toggle('hidden');
-        menu.classList.toggle('block');
-      }
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const isHidden = dropdown.classList.contains('hidden');
+      dropdown.classList.toggle('hidden', !isHidden);
+      dropdown.classList.toggle('block', isHidden);
+      btn.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0deg)';
+      btn.style.transition = 'transform 0.2s';
     });
-  }
-});
+  });
 
-// Mobile subDropdowns
-document.querySelectorAll('.nav-links .relative.group\\/sub').forEach((sub) => {
-  const link = sub.querySelector('a');
-  const menu = sub.querySelector('.absolute');
+  document.querySelectorAll('.mobile-subtoggle').forEach((btn) => {
+    const subdropdown = btn.nextElementSibling;
+    if (!subdropdown) return;
 
-  if (link && menu) {
-    link.style.display = 'flex';
-    link.style.justifyContent = 'space-between';
-    link.style.alignItems = 'center';
-    link.style.width = '100%';
-
-    const toggleBtn = document.createElement('span');
-    toggleBtn.innerHTML = `<svg width="12" height="12" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 5L7.5 10L12 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`;
-    toggleBtn.className = 'ml-auto p-1 cursor-pointer';
-    link.appendChild(toggleBtn);
-
-    toggleBtn.addEventListener('click', (e) => {
-      const isMobile = window.innerWidth < 768;
-      if (isMobile) {
-        e.preventDefault();
-        e.stopPropagation();
-        menu.classList.toggle('hidden');
-        menu.classList.toggle('block');
-      }
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const isHidden = subdropdown.classList.contains('hidden');
+      subdropdown.classList.toggle('hidden', !isHidden);
+      subdropdown.classList.toggle('block', isHidden);
+      btn.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0deg)';
+      btn.style.transition = 'transform 0.2s';
     });
-  }
-});
+  });
+}
 
 // More projects
 const moreProjectsBtn = document.querySelector('#moreProjects');
 if (moreProjectsBtn) {
   moreProjectsBtn.addEventListener('click', () => {
-    const contenedor = document.querySelector('#containerProjects');
-    const moreprojects = document.querySelector('#moreProjects');
-    contenedor.classList.remove('h-[150vh]');
-    contenedor.classList.remove('h-auto');
-    moreprojects.classList.add('hidden');
+    document.querySelector('#containerProjects').classList.remove('h-[150vh]', 'h-auto');
+    moreProjectsBtn.classList.add('hidden');
   });
 }
-
