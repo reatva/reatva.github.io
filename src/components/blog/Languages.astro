@@ -1,9 +1,10 @@
 ---
+import Capsule from "../ui/Capsule.astro";
 const allPosts = Object.values(import.meta.glob("../../pages/blog/posts/Blogger/*.md", { eager: true })) as any[];
 const languages = [
     ...new Set(allPosts.map((post) => post.frontmatter.languages).flat()),
 ];
-import Capsule from "../ui/Capsule.astro";
+
 
 const { variant = "default" } = Astro.props;
 
