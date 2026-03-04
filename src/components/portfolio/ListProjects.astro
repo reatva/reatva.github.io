@@ -1,6 +1,6 @@
 ---
 import Project from "./Project.astro";
-const allPosts = Object.values(import.meta.glob("../../pages/portfolio/projects/*.md", { eager: true }));
+const allPosts = Object.values(import.meta.glob("../../pages/portfolio/projects/*.md", { eager: true })) as any[];
 // Sort by descending date (most recent first)
 allPosts.sort(
   (a, b) =>

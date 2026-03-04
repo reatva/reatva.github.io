@@ -1,5 +1,5 @@
 ---
-const allPosts = Object.values(import.meta.glob("../../pages/blog/posts/provinggrounds/*.md", { eager: true }));
+const allPosts = Object.values(import.meta.glob("../../pages/blog/posts/provinggrounds/*.md", { eager: true })) as any[];
 const sortedPosts = allPosts
   .filter(post => post.frontmatter.pubDate)
   .sort((a, b) => new Date(b.frontmatter.pubDate).getTime() - new Date(a.frontmatter.pubDate).getTime());

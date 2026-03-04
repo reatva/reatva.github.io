@@ -9,7 +9,7 @@ export interface Props {
 
 const { season, currentPostUrl = "" } = Astro.props;
 
-const allPosts = Object.values(import.meta.glob("../../pages/blog/posts/hackthebox/season10/*.md", { eager: true }));
+const allPosts = Object.values(import.meta.glob("../../pages/blog/posts/hackthebox/season10/*.md", { eager: true })) as any[];
 
 const postsToShow = allPosts
   .filter(post => {

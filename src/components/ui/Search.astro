@@ -1,8 +1,8 @@
 ---
-const htbPosts = Object.values(import.meta.glob("../../pages/blog/posts/hackthebox/Machines/*.md", { eager: true }));
-const s10Posts = Object.values(import.meta.glob("../../pages/blog/posts/hackthebox/season10/*.md", { eager: true }));
-const pgPosts = Object.values(import.meta.glob("../../pages/blog/posts/provinggrounds/*.md", { eager: true }));
-const blogPosts = Object.values(import.meta.glob("../../pages/blog/posts/Blogger/*.md", { eager: true }));
+const htbPosts = Object.values(import.meta.glob("../../pages/blog/posts/hackthebox/Machines/*.md", { eager: true })) as any[];
+const s10Posts = Object.values(import.meta.glob("../../pages/blog/posts/hackthebox/season10/*.md", { eager: true })) as any[];
+const pgPosts = Object.values(import.meta.glob("../../pages/blog/posts/provinggrounds/*.md", { eager: true })) as any[];
+const blogPosts = Object.values(import.meta.glob("../../pages/blog/posts/Blogger/*.md", { eager: true })) as any[];
 
 const allPosts = [...htbPosts, ...s10Posts, ...pgPosts, ...blogPosts].map(post => ({
   title: post.frontmatter.title,
