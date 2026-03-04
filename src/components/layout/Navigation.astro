@@ -11,19 +11,19 @@ type MenuItem = { name: string; path: string; dropdown?: DropdownItem[] };
 
 const menu: Record<string, MenuItem> = {
   about: { name: "About Me", path: "/about-me" },
-  blog: { 
-    name: "Blog", 
+  blog: {
+    name: "Blog",
     path: "/blog/",
     dropdown: [
       { name: "All Posts", path: "/blog/posts/Blogger" },
     ]
   },
-  writeups: { 
-    name: "Write-Ups", 
+  writeups: {
+    name: "Write-Ups",
     path: "/blog/writeups",
     dropdown: [
-      { 
-        name: "Hackthebox", 
+      {
+        name: "Hackthebox",
         path: "/blog/posts/hackthebox",
         subDropdown: [
           { name: "Season 10", path: "/blog/posts/hackthebox/season10" }
@@ -41,8 +41,8 @@ const baseClasses = {
   nav: "nav-links flex w-full justify-center gap-6 max-md:gap-3 max-md:py-6",
   link: "px-2 py-2 transition-all hover:text-mint-300 max-md:mx-auto max-md:w-full max-md:px-6 max-md:py-2",
   socialContainer: "flex items-center justify-center gap-5 md:hidden",
-  dropdown: "relative group flex items-center",
-  dropdownMenu: "absolute left-0 top-full hidden group-hover:block bg-white dark:bg-zinc-800 shadow-lg rounded-md py-2 min-w-[200px] z-50",
+  dropdown: "relative group flex items-center max-md:flex-wrap max-md:w-full",
+  dropdownMenu: "mobile-dropdown-menu absolute left-0 top-full hidden group-hover:block bg-white dark:bg-zinc-800 shadow-lg rounded-md py-2 min-w-[200px] z-50",
   dropdownItem: "block px-4 py-2 text-sm hover:bg-mint-100 dark:hover:bg-zinc-700 transition-colors dark:text-zinc-300 text-blacktext"
 };
 ---
@@ -50,7 +50,7 @@ const baseClasses = {
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     const isHome = window.location.pathname === "/";
-    
+
     const linkClasses = {
       active: ["text-mint-500","dark:text-mint-400", "font-bold", "[text-shadow:_1px_1px_11px_rgba(208,251,229,0.7)]"],
       inactive: ["dark:text-zinc-300", "text-blacktext"]
@@ -118,23 +118,26 @@ const baseClasses = {
         <div class={baseClasses.dropdown}>
           <a
             href={item.path}
-            class={baseClasses.link}
+            class={`${baseClasses.link} max-md:flex-1`}
             data-path={item.path}
             aria-label={item.name}
             aria-current={item.path === Astro.url.pathname ? 'page' : undefined}
           >
             {item.name}
           </a>
-          <button class="mobile-toggle md:hidden px-2 py-2 text-current" aria-label="Toggle menu">
-            <svg width="12" height="12" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <button
+            class="mobile-toggle md:hidden px-3 py-2 text-current flex-shrink-0"
+            aria-label="Toggle menu"
+          >
+            <svg class="mobile-arrow transition-transform duration-200" width="14" height="14" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M3 5L7.5 10L12 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
             </svg>
           </button>
-          <div class={baseClasses.dropdownMenu} data-dropdown>
+          <div class={baseClasses.dropdownMenu}>
             {item.dropdown.map((dropdownItem: DropdownItem) => {
               if (dropdownItem.subDropdown) {
                 return (
-                  <div class="relative group/sub" data-subdropdown-wrapper>
+                  <div class="relative group/sub">
                     <a
                       href={dropdownItem.path}
                       class={`${baseClasses.dropdownItem} flex justify-between items-center gap-4`}
@@ -147,18 +150,26 @@ const baseClasses = {
                         </svg>
                       </span>
                     </a>
-                    <button class="mobile-subtoggle md:hidden px-2 py-1 text-current absolute right-2 top-1" aria-label="Toggle submenu">
-                      <svg width="12" height="12" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <button
+                      class="mobile-subtoggle md:hidden absolute right-2 top-1 px-2 py-1 text-current"
+                      aria-label="Toggle submenu"
+                    >
+                      <svg class="mobile-arrow transition-transform duration-200" width="14" height="14" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M3 5L7.5 10L12 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
                       </svg>
                     </button>
-                    <div class="absolute left-full top-0 hidden group-hover/sub:block bg-white dark:bg-zinc-800 shadow-lg rounded-md py-2 min-w-[160px] z-50" data-subdropdown>
+                    <!-- Desktop submenu -->
+                    <div class="desktop-subdropdown absolute left-full top-0 hidden group-hover/sub:block bg-white dark:bg-zinc-800 shadow-lg rounded-md py-2 min-w-[160px] z-50">
                       {dropdownItem.subDropdown.map((sub: SubDropdownItem) => (
-                        <a
-                          href={sub.path}
-                          class={baseClasses.dropdownItem}
-                          data-path={sub.path}
-                        >
+                        <a href={sub.path} class={baseClasses.dropdownItem} data-path={sub.path}>
+                          {sub.name}
+                        </a>
+                      ))}
+                    </div>
+                    <!-- Mobile submenu -->
+                    <div class="mobile-subdropdown hidden md:hidden border-l-2 border-mint-400/30 ml-4 bg-white/5 dark:bg-white/5 py-1">
+                      {dropdownItem.subDropdown.map((sub: SubDropdownItem) => (
+                        <a href={sub.path} class={baseClasses.dropdownItem} data-path={sub.path}>
                           {sub.name}
                         </a>
                       ))}
