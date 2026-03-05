@@ -75,16 +75,7 @@ import Heading from "../components/ui/Heading.astro";
       class="flex flex-col gap-8 max-w-3xl max-md:w-full pb-10 pt-8 mt-8 px-14 max-md:px-10 max-sm:px-4 dark:bg-transparent bg-white dark:border-0 border border-neutral-100 rounded-2xl"
     >
       <header class="flex flex-col gap-4" id="start">
-        <div class="flex gap-2 flex-wrap">
-          {
-            frontmatter.languages.map((language: string) => (
-              <Capsule lang={language} />
-            ))
-          }
-        </div>
-        <div class="gap-3 flex flex-wrap justify-start items-center">
-          {frontmatter.tags.map((tag: string) => <Tag tag={tag}>{tag}</Tag>)}
-        </div>
+
         <DatePub date={frontmatter.pubDate} />
 
         <Heading text={frontmatter.title} />
@@ -125,7 +116,17 @@ import Heading from "../components/ui/Heading.astro";
       <div class="markdown" id="content">
         <slot />
       </div>
-      <Share currentUrl={currentUrl} tweetText={tweetText} />
+      <div class="flex gap-2 flex-wrap">
+        {
+          frontmatter.languages.map((language: string) => (
+            <Capsule lang={language} />
+          ))
+        }
+      </div>
+      <div class="gap-3 flex flex-wrap justify-start items-center">
+        {frontmatter.tags.map((tag: string) => <Tag tag={tag}>{tag}</Tag>)}
+      </div>      
+      <!-- <Share currentUrl={currentUrl} tweetText={tweetText} /> -->
     </article>
     <NavArticle title={frontmatter.title} />
   </section>

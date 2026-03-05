@@ -1,8 +1,8 @@
 ---
-import Layout from "../../../../layouts/Layout.astro";
-import Hero from "../../../../components/blog/Hero.astro";
-import Tags from "../../../../components/blog/Tags_HTB.astro";
-import ListPosts from "../../../../components/blog/Hackthebox.astro";
+import Layout from "../../../../../layouts/Layout.astro";
+import Hero from "../../../../../components/blog/Hero.astro";
+import Tags from "../../../../../components/blog/Tags_HTB.astro";
+import ListPosts from "../../../../../components/blog/Hackthebox.astro";
 const pageTitle = "Adrian Reategui Cybersecurity Professional | OSCP | OSCP+ | CompTIA Security+";
 const description = "Welcome to my blog, where I share my passion for Cybersecurity";
 const ogimage = {
@@ -11,10 +11,10 @@ const ogimage = {
 };
 const currentUrl = `${Astro.site}${Astro.url.pathname}`;
 const tweetText = encodeURIComponent(`"${pageTitle}"`);
-import Heading from "../../../../components/ui/Heading.astro";
-import Share from "../../../../components/ui/Share.astro";
+import Heading from "../../../../../components/ui/Heading.astro";
+import Share from "../../../../../components/ui/Share.astro";
 
-import Languages from "../../../../components/blog/Languages_HTB.astro";
+import Languages from "../../../../../components/blog/Languages_HTB.astro";
 ---
 
 <Layout pageTitle={pageTitle} description={description} ogimage={ogimage}>
